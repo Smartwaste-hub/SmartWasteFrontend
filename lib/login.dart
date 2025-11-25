@@ -1,7 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:smartwastefrontend/homepage.dart';
+import 'package:smartwastefrontend/registration.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+   LoginPage({super.key});
+
+  TextEditingController Username  =TextEditingController();
+  TextEditingController Password =TextEditingController();
+
+  Future<void> _login(context) async {
+    Map<String, dynamic> data = {
+     'Username':Username.text,
+     'Password':Password.text,
+     
+   
+   };
+  try {
+    final response = await dio.post('$baseurl/loginPage_api',data: data);
+    if (response.statusCode==200||response.statusCode==201){
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => HomePage(),), (route)=>false);
+    }
+  } catch (e) {
+    print(e);
+  }}
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +70,10 @@ class LoginPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 30),
                       TextFormField(
+                        controller: Username,
+                        validator: (value) {
+                          if( value==null||value.isEmpty){return "Enter your user name";}
+                        },
                         decoration: InputDecoration(
                           prefixIcon: const Icon(Icons.person),
                           labelText: 'Username',
@@ -58,7 +83,12 @@ class LoginPage extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 20),
+
                       TextFormField(
+                        controller: Password,
+                        validator: (value) {
+                          if( value==null||value.isEmpty){return "Enter your password";}
+                        },
                         obscureText: true,
                         decoration: InputDecoration(
                           prefixIcon: const Icon(Icons.lock),
@@ -80,7 +110,9 @@ class LoginPage extends StatelessWidget {
                               borderRadius: BorderRadius.circular(12),
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            _login(context);
+                          },
                           child: const Text(
                             'LOGIN',
                             style: TextStyle(
@@ -92,9 +124,11 @@ class LoginPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 15),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterPage(),));
+                        },
                         child: const Text(
-                          'Forgot Password?',
+                          'Register',
                           style: TextStyle(color: Colors.grey),
                         ),
                       ),

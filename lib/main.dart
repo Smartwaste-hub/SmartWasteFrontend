@@ -4,7 +4,7 @@ import 'package:smartwastefrontend/login.dart';
 import 'package:smartwastefrontend/registration.dart';
 import 'package:smartwastefrontend/scanqrcode.dart';
 import 'package:smartwastefrontend/viewprofile.dart';
-import 'package:smartwastefrontend/viewreward&transactionhistory.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
      
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: QRScannerPage()
+      home: LoginPage()
     );
   }
 }

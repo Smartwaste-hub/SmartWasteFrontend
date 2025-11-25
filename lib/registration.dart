@@ -1,7 +1,43 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-
+import 'package:smartwastefrontend/login.dart';
+ String baseurl='http://192.168.1.130:5000';
+ Dio dio=Dio();
 class RegisterPage extends StatelessWidget {
-  const RegisterPage({super.key});
+  RegisterPage({super.key});
+
+
+  TextEditingController name =TextEditingController();
+  TextEditingController department =TextEditingController();
+  TextEditingController mobilenumber =TextEditingController();
+  TextEditingController gender =TextEditingController();
+  TextEditingController email =TextEditingController();
+  TextEditingController password =TextEditingController();
+  TextEditingController age =TextEditingController();
+  TextEditingController address =TextEditingController();
+
+
+// Simple registration function
+  Future<void> _register(context) async {
+    Map<String, dynamic> data = {
+     'name':name.text,
+     'department':department.text,
+     'mobilenumber':mobilenumber.text,
+     'gender':gender.text,
+     'email':email.text,
+     'password':password.text,
+     'age':age.text,
+     'address':address.text,
+   
+   };
+  try {
+    final response = await dio.post('$baseurl/StudentRegAPIView',data: data);
+    if (response.statusCode==200||response.statusCode==201){
+      Navigator.pop(context);
+    }
+  } catch (e) {
+    print(e);
+  }}
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +86,10 @@ class RegisterPage extends StatelessWidget {
 
                       // Student Name
                       TextFormField(
+                        controller: name,
+                        validator: (value) {
+                          if( value==null||value.isEmpty){return "Enter your name";}
+                        },
                         decoration: InputDecoration(
                           prefixIcon: const Icon(Icons.person_outline),
                           labelText: 'Student Name',
@@ -63,8 +103,48 @@ class RegisterPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
 
-                      // Department
                       TextFormField(
+                        controller: age,
+                        validator: (value) {
+                          if( value==null||value.isEmpty){return "Enter your age";}
+                        },
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.person_outline),
+                          labelText: 'Age',
+                          filled: true,
+                          fillColor: Colors.grey[100],
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+
+                      TextFormField(
+                        controller: address,
+                        validator: (value) {
+                          if( value==null||value.isEmpty){return "Enter your address";}
+                        },
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.person_outline),
+                          labelText: 'Address',
+                          filled: true,
+                          fillColor: Colors.grey[100],
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+
+
+                      TextFormField(
+                        controller: department,
+                        validator: (value) {
+                          if( value==null||value.isEmpty){return "Enter your department";}
+                        },
                         decoration: InputDecoration(
                           prefixIcon: const Icon(Icons.school_outlined),
                           labelText: 'Department',
@@ -80,6 +160,10 @@ class RegisterPage extends StatelessWidget {
 
                       // Mobile Number
                       TextFormField(
+                        controller: mobilenumber,
+                        validator: (value) {
+                          if( value==null||value.isEmpty){return "Enter your mobilenumber";}
+                        },
                         keyboardType: TextInputType.phone,
                         decoration: InputDecoration(
                           prefixIcon: const Icon(Icons.phone_android),
@@ -96,6 +180,10 @@ class RegisterPage extends StatelessWidget {
 
                       // Gender
                       TextFormField(
+                        controller: gender,
+                        validator: (value) {
+                          if( value==null||value.isEmpty){return "Enter your gender";}
+                        },
                         decoration: InputDecoration(
                           prefixIcon: const Icon(Icons.person),
                           labelText: 'Gender',
@@ -111,6 +199,10 @@ class RegisterPage extends StatelessWidget {
 
                       // Email
                       TextFormField(
+                        controller: email,
+                        validator: (value) {
+                          if( value==null||value.isEmpty){return "Enter your email";}
+                        },
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
                           prefixIcon: const Icon(Icons.email_outlined),
@@ -127,6 +219,10 @@ class RegisterPage extends StatelessWidget {
 
                       // Password
                       TextFormField(
+                        controller: password,
+                        validator: (value) {
+                          if( value==null||value.isEmpty){return "Enter your password";}
+                        },
                         obscureText: true,
                         decoration: InputDecoration(
                           prefixIcon: const Icon(Icons.lock_outline),
@@ -155,7 +251,7 @@ class RegisterPage extends StatelessWidget {
                           ),
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
-                              // Handle registration
+                              _register(context);
                             }
                           },
                           child: const Text(
