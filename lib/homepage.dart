@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smartwastefrontend/ViewProduct.dart';
 import 'package:smartwastefrontend/complaint.dart';
 import 'package:smartwastefrontend/rewardhistory.dart';
 import 'package:smartwastefrontend/scanqrcode.dart';
@@ -66,7 +67,8 @@ class HomePage extends StatelessWidget {
               _navButton(context, "Scan QR Code", Icons.qr_code_scanner, QRScannerPage()),
               _navButton(context, "View Profile", Icons.person, ViewProfile()),
               _navButton(context, "Rewards & Transactions", Icons.card_giftcard, RewardPage() ),
-            ],
+              _navButton(context, "Product", Icons.shopping_bag, ViewProduct() ),
+         ]
           ),
 
           const Spacer(),

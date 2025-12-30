@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smartwastefrontend/ViewProduct.dart';
 
 class RewardPage extends StatelessWidget {
   const RewardPage({super.key});
@@ -95,7 +96,7 @@ class RewardPage extends StatelessWidget {
                       "isPositive": false
                     },
                     {
-                      "title": "Event Participation",
+                      "title": "plastic bottle",
                       "date": "Nov 8, 2025",
                       "points": "+100",
                       "isPositive": true
@@ -141,7 +142,7 @@ class RewardPage extends StatelessWidget {
                         backgroundColor: isPositive
                             ? const Color(0xFF81C784)
                             : const Color(0xFFC8E6C9),
-                        child: Icon(
+                     child: Icon(
                           isPositive ? Icons.arrow_upward : Icons.arrow_downward,
                           color:
                               isPositive ? Colors.green[900] : Colors.red[400],
@@ -166,13 +167,29 @@ class RewardPage extends StatelessWidget {
                               ? const Color(0xFF2E7D32)
                               : Colors.redAccent,
                           fontSize: 16,
+
                         ),
                       ),
-                    ),
-                  );
+                    ));
+                      
+               
                 },
               ),
-            ),
+              
+            ),ElevatedButton.icon(onPressed: (){
+               Navigator.push(
+  context,
+  MaterialPageRoute(
+    builder: (context) => ViewProduct( )
+    ),
+               );
+              
+            }, label: Text("Buy Product"),style:ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF388E3C),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ) ,)
           ],
         ),
       ),

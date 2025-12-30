@@ -104,8 +104,10 @@ print(response.data);
                         buildProfileRow(Icons.person_outline, "Name", name),
                         buildProfileRow(Icons.school_outlined, "Department", department),
                         buildProfileRow(Icons.phone, "Mobile Number", phone),
-                        buildProfileRow(Icons.female, "Gender", gender),
-                        buildProfileRow(Icons.female, "Gender", age),
+                        buildProfileRow(Icons.person, "Gender", gender),
+                        buildProfileRow(Icons.email, "Email", email),
+                        buildProfileRow(Icons.event, "Age", age),
+                        buildProfileRow(Icons.location_city, "Address", address),
 
                         const SizedBox(height: 30),
                         ElevatedButton.icon(
