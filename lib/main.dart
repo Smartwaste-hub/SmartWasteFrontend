@@ -3,8 +3,6 @@ import 'package:smartwastefrontend/complaint.dart';
 import 'package:smartwastefrontend/login.dart';
 import 'package:smartwastefrontend/registration.dart';
 import 'package:smartwastefrontend/scanqrcode.dart';
-import 'package:smartwastefrontend/viewprofile.dart';
-
 
 void main() {
   runApp(const MyApp());

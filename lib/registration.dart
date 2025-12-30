@@ -1,8 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:smartwastefrontend/login.dart';
- String baseurl='http://192.168.1.130:5000';
+
+
+ String baseurl='http://192.168.1.85:5000';
  Dio dio=Dio();
+
 class RegisterPage extends StatelessWidget {
   RegisterPage({super.key});
 
@@ -25,11 +28,13 @@ class RegisterPage extends StatelessWidget {
      'mobilenumber':mobilenumber.text,
      'gender':gender.text,
      'email':email.text,
-     'password':password.text,
+     'Username':email.text,
+     'Password':password.text,
      'age':age.text,
      'address':address.text,
    
    };
+   print(data);
   try {
     final response = await dio.post('$baseurl/StudentRegAPIView',data: data);
     if (response.statusCode==200||response.statusCode==201){

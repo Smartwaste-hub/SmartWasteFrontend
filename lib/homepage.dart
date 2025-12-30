@@ -10,7 +10,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xffe9f5e9),
       appBar: AppBar(
-        title: const Text("Green Home Page"),
+        title: const Text(" Home Page"),
         backgroundColor: const Color(0xff2e7d32),
         centerTitle: true,
       ),
@@ -61,7 +61,7 @@ class HomePage extends StatelessWidget {
             spacing: 15,
             runSpacing: 15,
             children: [
-              _navButton(context, "Complaint", Icons.report, Complaint()),
+              _navButton(context, "Complaint", Icons.report, ComplaintPage()),
               // _navButton(context, "Registration", Icons.app_registration, "/registration"),
               _navButton(context, "Scan QR Code", Icons.qr_code_scanner, QRScannerPage()),
               _navButton(context, "View Profile", Icons.person, ViewProfile()),

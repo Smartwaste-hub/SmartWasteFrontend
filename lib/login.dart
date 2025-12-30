@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:smartwastefrontend/homepage.dart';
 import 'package:smartwastefrontend/registration.dart';
-
-class LoginPage extends StatelessWidget {
+int? loginid;
+class LoginPage extends StatelessWidget{
    LoginPage({super.key});
 
   TextEditingController Username  =TextEditingController();
   TextEditingController Password =TextEditingController();
+  String baseurl='http://192.168.1.85:5000';
 
   Future<void> _login(context) async {
     Map<String, dynamic> data = {
@@ -18,6 +19,8 @@ class LoginPage extends StatelessWidget {
   try {
     final response = await dio.post('$baseurl/loginPage_api',data: data);
     if (response.statusCode==200||response.statusCode==201){
+      loginid=response.data['login_id'];
+      print(loginid);
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => HomePage(),), (route)=>false);
     }
   } catch (e) {
@@ -69,6 +72,7 @@ class LoginPage extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 30),
+
                       TextFormField(
                         controller: Username,
                         validator: (value) {

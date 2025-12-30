@@ -1,94 +1,151 @@
 import 'package:flutter/material.dart';
+import 'package:smartwastefrontend/edit.dart';
+import 'package:smartwastefrontend/login.dart';
+import 'package:smartwastefrontend/registration.dart';
 
-class ViewProfile extends StatelessWidget {
+class ViewProfile extends StatefulWidget {
   const ViewProfile({super.key});
+
+  @override
+  State<ViewProfile> createState() => _ViewProfileState();
+}
+
+class _ViewProfileState extends State<ViewProfile> {
+
+  String name = '';
+  String department = '';
+  String phone = '';
+  String gender = '';
+  String email = '';
+  String age = '';
+  String address= '';
+
+  bool isLoading = true;
+
+  Future<void> viewprofile() async {
+    Map<String, dynamic> data = {
+      'lid': loginid
+    };
+
+    try {
+      final response = await dio.get(
+        '$baseurl/viewprofile',
+        data: data,
+      );
+print(response.data);
+      if (response.statusCode == 200) {
+        final profile = response.data;
+
+        setState(() {
+          name = profile[0]['name'];
+          age = profile[0]['age'].toString();
+          address = profile[0]['address'];
+          department = profile[0]['department'];
+          phone = profile[0]['mobilenumber'].toString();
+          gender = profile[0]['gender'];
+          email = profile[0]['email'];
+          isLoading = false;
+        });
+      }
+    } catch (e) {
+      print("Error: $e");
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    viewprofile();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFE8F5E9), // light green background
+      backgroundColor: const Color(0xFFE8F5E9),
       appBar: AppBar(
-        title: const Text(
-          'View Profile',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        backgroundColor: const Color(0xFF388E3C), // deep green
+        title: const Text('View Profile', style: TextStyle(fontWeight: FontWeight.bold)),
+        backgroundColor: const Color(0xFF388E3C),
         centerTitle: true,
-        elevation: 4,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Center(
-          child: Card(
-            elevation: 8,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            color: Colors.white,
-            child: Padding(
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : Padding(
               padding: const EdgeInsets.all(20.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const CircleAvatar(
-                    radius: 50,
-                    backgroundColor: Color(0xFF66BB6A),
-                    child: Icon(
-                      Icons.person,
-                      size: 60,
-                      color: Colors.white,
-                    ),
+              child: Center(
+                child: Card(
+                  elevation: 8,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
                   ),
-                  const SizedBox(height: 20),
-                  const Text(
-                    "Student Profile",
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF388E3C),
-                    ),
-                  ),
-                  const Divider(
-                    height: 30,
-                    thickness: 1,
-                    color: Color(0xFF81C784),
-                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const CircleAvatar(
+                          radius: 50,
+                          backgroundColor: Color(0xFF66BB6A),
+                          child: Icon(Icons.person, size: 60, color: Colors.white),
+                        ),
+                        const SizedBox(height: 20),
+                        const Text(
+                          "Student Profile",
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF388E3C),
+                          ),
+                        ),
+                        const Divider(height: 30),
 
-                  // Profile details
-                  buildProfileRow(Icons.person_outline, "Name", "Saja"),
-                  buildProfileRow(Icons.school_outlined, "Department", "BCA"),
-                  buildProfileRow(Icons.phone, "Mobile Number", "5656454522"),
-                  buildProfileRow(Icons.female, "Gender", "Female"),
+                        buildProfileRow(Icons.person_outline, "Name", name),
+                        buildProfileRow(Icons.school_outlined, "Department", department),
+                        buildProfileRow(Icons.phone, "Mobile Number", phone),
+                        buildProfileRow(Icons.female, "Gender", gender),
+                        buildProfileRow(Icons.female, "Gender", age),
 
-                  const SizedBox(height: 30),
-                  ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF388E3C),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 12, horizontal: 24),
+                        const SizedBox(height: 30),
+                        ElevatedButton.icon(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF388E3C),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          onPressed: () {
+                           Navigator.push(
+  context,
+  MaterialPageRoute(
+    builder: (context) => EditProfile(
+      profile: {
+        "name": name,
+        "department": department,
+        "phone": phone,
+        "gender": gender,
+        "email": email,
+        "age": age,
+        "address": address,
+      },
+    ),
+  ),
+);
+
+                          },
+                          icon: const Icon(Icons.edit, color: Colors.white),
+                          label: const Text(
+                            "Edit Profile",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        )
+                      ],
                     ),
-                    onPressed: () {},
-                    icon: const Icon(Icons.edit, color: Colors.white),
-                    label: const Text(
-                      "Edit Profile",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                  )
-                ],
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
-      ),
     );
   }
 
@@ -102,19 +159,12 @@ class ViewProfile extends StatelessWidget {
           Expanded(
             child: Text(
               "$label:",
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: Colors.black87,
-              ),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
             ),
           ),
           Text(
             value,
-            style: const TextStyle(
-              fontSize: 16,
-              color: Colors.black54,
-            ),
+            style: const TextStyle(fontSize: 16, color: Colors.black54),
           ),
         ],
       ),
